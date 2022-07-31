@@ -10,6 +10,7 @@
   <version>1.0-SNAPSHOT</version>
   <modules>
     <module>amigoscode</module>
+    <module>fraud</module>
   </modules>
 
   <name>amigosservices</name>
