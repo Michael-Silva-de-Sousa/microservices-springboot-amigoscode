@@ -1,4 +1,4 @@
-package br.com.amigoscode;
+package br.com.amigoscode.persistence;
 
 import lombok.*;
 

@@ -1,7 +1,10 @@
-package br.com.amigoscode;
+package br.com.amigoscode.web;
 
+import lombok.Builder;
+
+@Builder
 public record CustomerRegistrationRequest(
         String firstName,
-        String lstName,
+        String lastName,
         String email) {
 }
