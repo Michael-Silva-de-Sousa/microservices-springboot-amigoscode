@@ -12,3 +12,5 @@ eureka:
   client:
     fetch-registry: false
     register-with-eureka: false
+    # Essa propriedade indica ao Eureka para rodar um job para calcular novamente a quantidade de heartbeats esperados. Valor padrão é 15 minutos.
+    renewal-threshold-update-interval-ms: 5
