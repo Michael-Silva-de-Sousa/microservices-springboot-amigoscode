@@ -1,5 +1,6 @@
 package br.com.amigoscode.service;
 
+import br.com.amigoscode.clients.FraudClient;
 import br.com.amigoscode.persistence.Customer;
 import br.com.amigoscode.persistence.CustomerRepository;
 import br.com.amigoscode.web.CustomerRegistrationRequest;
@@ -10,18 +11,18 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.Objects;
+import javax.transaction.Transactional;
 
 @Service
 @AllArgsConstructor
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final RestTemplate restTemplate;
+    private final FraudClient fraudClient;
     private final RabbitMQMessageProducer rabbitMQMessageProducer;
 
+    @Transactional
     public void registerCustomer(CustomerRegistrationRequest request) {
 
         Customer customer = Customer.builder()
@@ -32,11 +33,11 @@ public class CustomerService {
 
         customerRepository.saveAndFlush(customer);
 
-        ResponseEntity<FraudCheckResponse> fraudCheckResponse = restTemplate.getForEntity(
-                "http://localhost:8081/api/v1/fraud-check/{customerId}",
-                FraudCheckResponse.class,
-                customer.getId()
-        );
+        gravarClienteFraudador(customer);
+    }
+
+    private void gravarClienteFraudador(Customer customer) {
+        ResponseEntity<FraudCheckResponse> fraudCheckResponse = fraudClient.isFraudster(customer.getId());
 
         if(fraudCheckResponse.getStatusCode() == HttpStatus.OK){
             throw new IllegalStateException("fraudster");

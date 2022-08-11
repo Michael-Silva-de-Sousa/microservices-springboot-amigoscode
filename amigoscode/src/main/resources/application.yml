@@ -28,6 +28,10 @@ eureka:
       register-with-eureka: true
     instance:
       preferIpAddress: true
+# Clients
+clients:
+  fraud:
+    url: http://localhost:8081
 # Server configuration
 server:
   port: 8080 #set your port
