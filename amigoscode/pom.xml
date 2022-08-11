@@ -50,6 +50,7 @@
             <groupId>br.com</groupId>
             <artifactId>rabbit</artifactId>
             <version>1.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
